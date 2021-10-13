@@ -30,7 +30,8 @@ EXTRA_DEPENDENCIES: Dict[str, List[str]] = {
 
 setup(
     name="synapse_user_restrictions",
-    description="This module allows restricting users from performing actions such as creating rooms or sending invites.",
+    description="This module allows restricting users from performing actions"
+    " such as creating rooms or sending invites.",
     version="0.0.0",
     packages=["synapse_user_restrictions"],
     # url="",
