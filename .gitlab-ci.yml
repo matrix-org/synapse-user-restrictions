@@ -1,0 +1,42 @@
+image: python:3.8
+
+
+variables:
+  GIT_DEPTH: 0
+
+
+check_code_style:
+  tags: ['docker']
+  script:
+    - "pip install tox"
+    - "tox -e check_codestyle"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+check_types:
+  tags: ['docker']
+  script:
+    - "pip install tox"
+    - "tox -e check_types"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+unit_tests:
+  tags: ['docker']
+  script:
+    - "pip install tox"
+    - "tox -e py"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+check_newsfile:
+  tags: ['docker']
+  script:
+    - "python -m pip install towncrier"
+    - "echo $CI_MERGE_REQUEST_IID is the merge request ID"
+    - "scripts-dev/check_newsfragment.sh $CI_MERGE_REQUEST_IID"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
