@@ -12,7 +12,7 @@ from synapse_user_restrictions.config import (
 from tests import create_module
 
 
-class ExampleTest(unittest.IsolatedAsyncioTestCase):
+class ConfigTest(unittest.IsolatedAsyncioTestCase):
     def test_config_error_exceptions(self) -> None:
         """
         Check that configuration errors raise exceptions.
