@@ -1,14 +1,15 @@
 from typing import Any, Dict
 
-import attr
-import cattr
 from synapse.module_api import ModuleApi
 from synapse.module_api.errors import ConfigError
 
-
-@attr.s(auto_attribs=True, frozen=True)
-class UserRestrictionsModuleConfig:
-    example_option: bool = False
+from synapse_user_restrictions.config import (
+    CREATE_ROOM,
+    INVITE,
+    RuleResult,
+    UserRestrictionsModuleConfig,
+    make_cattr_converter,
+)
 
 
 class UserRestrictionsModule:
@@ -25,15 +26,48 @@ class UserRestrictionsModule:
 
     @staticmethod
     def parse_config(config: Dict[Any, Any]) -> UserRestrictionsModuleConfig:
+        converter = make_cattr_converter()
+
         try:
-            return cattr.structure(config, UserRestrictionsModuleConfig)
+            return converter.structure(config, UserRestrictionsModuleConfig)
         except (TypeError, ValueError) as e:
-            raise ConfigError("Failed to parse module config") from e
+            raise ConfigError(f"Failed to parse user restrictions module config: {e}")
+
+    def _apply_rules(self, user_id: str, permission: str) -> bool:
+        """
+        Apply the rules in-order, returning a boolean result.
+        If absolutely no rules make a decision on the permission, it is
+        the permission will be allowed.
+
+        Arguments:
+            user_id: the full User ID (@bob:example.org) of the user seeking
+                permission
+            permission: the string ID representing the permission being sought
+
+        Returns:
+            True if the rules allow the user to use that permission
+                or do not make a decision,
+            False if the user is denied from using that permission.
+        """
+        for rule in self._config.rules:
+            rule_result = rule.apply(user_id, permission)
+            if rule_result == RuleResult.Allow:
+                return True
+            elif rule_result == RuleResult.Deny:
+                return False
+
+        if permission in self._config.default_allow:
+            return True
+
+        if permission in self._config.default_deny:
+            return False
+
+        return True
 
     async def callback_user_may_create_room(self, user: str) -> bool:
-        return True
+        return self._apply_rules(user, CREATE_ROOM)
 
     async def callback_user_may_invite(
         self, inviter: str, invitee: str, room_id: str
     ) -> bool:
-        return True
+        return self._apply_rules(inviter, INVITE)
