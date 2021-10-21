@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import abc
 import enum
 import re
 from enum import Enum
@@ -76,21 +75,8 @@ class RuleResult(Enum):
     Deny = enum.auto()
 
 
-class Rule(abc.ABC):
-    def apply(self, user_id: str, permission: str) -> RuleResult:
-        """
-        Applies a rule, returning a result.
-
-        Arguments:
-            user_id: the Matrix ID (@bob:example.org) of the user being checked
-            permission: permission string identifying what kind of permission
-                is being sought
-        """
-        ...
-
-
 @attr.s(auto_attribs=True, frozen=True, slots=True)
-class RegexMatchRule(Rule):
+class RegexMatchRule:
     """
     A single rule that performs a regex match.
     """
@@ -105,6 +91,14 @@ class RegexMatchRule(Rule):
     deny: Set[str]
 
     def apply(self, user_id: str, permission: str) -> RuleResult:
+        """
+        Applies a regular expression match rule, returning a rule result.
+
+        Arguments:
+            user_id: the Matrix ID (@bob:example.org) of the user being checked
+            permission: permission string identifying what kind of permission
+                is being sought
+        """
         if not self.match.fullmatch(user_id):
             return RuleResult.NoDecision
 
