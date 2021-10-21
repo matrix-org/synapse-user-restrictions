@@ -7,7 +7,6 @@ class RuleTest(unittest.IsolatedAsyncioTestCase):
     async def test_rules_allow_with_default_deny(self) -> None:
         """
         Tests allow rules when the defaults are to deny those permissions.
-        :return:
         """
         module = create_module(
             {
