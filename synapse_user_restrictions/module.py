@@ -35,7 +35,7 @@ class UserRestrictionsModule:
         If no rules make a decision, the permission will be allowed by default.
 
         Arguments:
-            user_id: the full User ID (@bob:example.org) of the user seeking
+            user_id: the Matrix ID (@bob:example.org) of the user seeking
                 permission
             permission: the string ID representing the permission being sought
 

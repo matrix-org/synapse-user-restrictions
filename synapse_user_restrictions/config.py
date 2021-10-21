@@ -69,7 +69,7 @@ class Rule(abc.ABC):
         Applies a rule, returning a result.
 
         Arguments:
-            user_id: the full user ID (@bob:example.org) of the user being checked
+            user_id: the Matrix ID (@bob:example.org) of the user being checked
             permission: permission string identifying what kind of permission
                 is being sought
         """
