@@ -34,8 +34,15 @@ setup(
     " such as creating rooms or sending invites.",
     version="0.0.0",
     packages=["synapse_user_restrictions"],
-    # url="",
-    # license="",
+    url="https://github.com/matrix-org/synapse-user-restrictions",
+    classifiers=[
+        "Topic :: Communications :: Chat",
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+    ],
     install_requires=BASE_DEPENDENCIES,
     extras_require=EXTRA_DEPENDENCIES,
 )
