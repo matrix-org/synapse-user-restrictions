@@ -24,10 +24,8 @@ modules:
         - match: "@assistant.*:example.org"
           allow: [invite]
 
-      # If no rules match, then these permissions are allowed.
-      default_allow: []
-
       # If no rules match, then these permissions are denied.
+      # All other permissions are allowed by default.
       default_deny: [invite, create_room]
 ```
 
@@ -50,7 +48,7 @@ Valid permissions (as at the time of writing) are:
 - `invite`: the user is trying to invite another user to a room
 - `create_room`: the user is trying to create a room
 
-If no rules match, then `default_allow` and `default_deny` are consulted (in that order);
+If no rules match, then `default_deny` is consulted;
 `default_deny` is useful for only allowing a select few listed user patterns to
 be allowed to use certain features.
 

@@ -109,14 +109,8 @@ class UserRestrictionsModuleConfig:
     # as long as they have unique fields.
     rules: List[RegexMatchRule]
 
-    # If the rules don't make a judgement about a user, this is a list of
-    # allowed-by-default permissions.
-    default_allow: Set[str] = attr.ib(
-        factory=set, validator=check_all_permissions_understood
-    )
-
-    # If the rules don't make a judgement about a user, this is a list of
-    # denied-by-default permissions.
+    # If the rules don't make a judgement about a user for a permission,
+    # this is a list of denied-by-default permissions.
     default_deny: Set[str] = attr.ib(
         factory=set, validator=check_all_permissions_understood
     )

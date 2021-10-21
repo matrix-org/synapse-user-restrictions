@@ -56,9 +56,6 @@ class UserRestrictionsModule:
             elif rule_result == RuleResult.Deny:
                 return False
 
-        if permission in self._config.default_allow:
-            return True
-
         if permission in self._config.default_deny:
             return False
 

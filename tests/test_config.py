@@ -64,7 +64,6 @@ class ConfigTest(unittest.IsolatedAsyncioTestCase):
                             "deny": ["create_room"],
                         }
                     ],
-                    "default_allow": set(),
                     "default_deny": {"invite", "create_room"},
                 }
             ),
