@@ -2,6 +2,7 @@ from synapse.module_api import ModuleApi
 from synapse.module_api.errors import ConfigError
 
 from synapse_user_restrictions.config import (
+    ALL_UNDERSTOOD_PERMISSIONS,
     CREATE_ROOM,
     INVITE,
     ConfigDict,
@@ -44,6 +45,9 @@ class UserRestrictionsModule:
                 or do not make a decision,
             False if the user is denied from using that permission.
         """
+        if permission not in ALL_UNDERSTOOD_PERMISSIONS:
+            raise ValueError(f"Permission not recognised: {permission!r}")
+
         for rule in self._config.rules:
             rule_result = rule.apply(user_id, permission)
             if rule_result == RuleResult.Allow:
