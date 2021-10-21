@@ -54,6 +54,9 @@ class ConfigTest(unittest.IsolatedAsyncioTestCase):
             )
 
     def test_config_correct(self) -> None:
+        """
+        A correct configuration is parsed into the correct shape.
+        """
         self.assertEqual(
             UserRestrictionsModule.parse_config(
                 {
@@ -64,7 +67,7 @@ class ConfigTest(unittest.IsolatedAsyncioTestCase):
                             "deny": ["create_room"],
                         }
                     ],
-                    "default_deny": {"invite", "create_room"},
+                    "default_deny": ["invite", "create_room"],
                 }
             ),
             UserRestrictionsModuleConfig(

@@ -1,14 +1,12 @@
-from typing import Any, Dict
-
 from synapse.module_api import ModuleApi
 from synapse.module_api.errors import ConfigError
 
 from synapse_user_restrictions.config import (
     CREATE_ROOM,
     INVITE,
+    ConfigDict,
     RuleResult,
     UserRestrictionsModuleConfig,
-    make_cattr_converter,
 )
 
 
@@ -25,11 +23,9 @@ class UserRestrictionsModule:
         )
 
     @staticmethod
-    def parse_config(config: Dict[Any, Any]) -> UserRestrictionsModuleConfig:
-        converter = make_cattr_converter()
-
+    def parse_config(config: ConfigDict) -> UserRestrictionsModuleConfig:
         try:
-            return converter.structure(config, UserRestrictionsModuleConfig)
+            return UserRestrictionsModuleConfig.from_config(config)
         except (TypeError, ValueError) as e:
             raise ConfigError(f"Failed to parse user restrictions module config: {e}")
 

@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from setuptools import setup
 
-BASE_DEPENDENCIES: List[str] = ["attrs", "cattrs"]
+BASE_DEPENDENCIES: List[str] = ["attrs"]
 
 TEST_DEPENDENCIES: List[str] = ["matrix-synapse>=1.44.0", "tox", "twisted"]
 
@@ -36,8 +36,6 @@ setup(
     packages=["synapse_user_restrictions"],
     # url="",
     # license="",
-    author="John Moduleson",
-    author_email="jm@example.org",
     install_requires=BASE_DEPENDENCIES,
     extras_require=EXTRA_DEPENDENCIES,
 )
