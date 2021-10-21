@@ -76,7 +76,7 @@ class Rule(abc.ABC):
         ...
 
 
-@attr.s(auto_attribs=True, frozen=True)
+@attr.s(auto_attribs=True, frozen=True, slots=True)
 class RegexMatchRule(Rule):
     """
     A single rule that performs a regex match.
@@ -136,7 +136,7 @@ class RegexMatchRule(Rule):
         )
 
 
-@attr.s(auto_attribs=True, frozen=True)
+@attr.s(auto_attribs=True, frozen=True, slots=True)
 class UserRestrictionsModuleConfig:
     """
     The root-level configuration.
