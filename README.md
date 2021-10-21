@@ -40,8 +40,10 @@ and
 
 Rules are applied top-to-bottom, with the first matching rule being used.
 
-A rule matches if the regular expression (written in `match`) matches the user's ID,
-and the permission being sought is either in the `allow` list or the `deny` list.
+A rule matches if the regular expression (written in `match`) fully matches the
+user's Matrix ID, and the permission being sought is either in the `allow` list
+or the `deny` list.
+The regular expression must match the full Matrix ID and not just a portion of it.
 
 Valid permissions (as at the time of writing) are:
 
