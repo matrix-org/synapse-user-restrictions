@@ -32,8 +32,7 @@ class UserRestrictionsModule:
     def _apply_rules(self, user_id: str, permission: str) -> bool:
         """
         Apply the rules in-order, returning a boolean result.
-        If absolutely no rules make a decision on the permission, it is
-        the permission will be allowed.
+        If no rules make a decision, the permission will be allowed by default.
 
         Arguments:
             user_id: the full User ID (@bob:example.org) of the user seeking
