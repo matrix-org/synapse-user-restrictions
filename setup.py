@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from setuptools import setup
 
-BASE_DEPENDENCIES: List[str] = ["attrs", "cattrs"]
+BASE_DEPENDENCIES: List[str] = ["attrs"]
 
 TEST_DEPENDENCIES: List[str] = ["matrix-synapse>=1.44.0", "tox", "twisted"]
 
@@ -34,10 +34,15 @@ setup(
     " such as creating rooms or sending invites.",
     version="0.0.0",
     packages=["synapse_user_restrictions"],
-    # url="",
-    # license="",
-    author="John Moduleson",
-    author_email="jm@example.org",
+    url="https://github.com/matrix-org/synapse-user-restrictions",
+    classifiers=[
+        "Topic :: Communications :: Chat",
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+    ],
     install_requires=BASE_DEPENDENCIES,
     extras_require=EXTRA_DEPENDENCIES,
 )

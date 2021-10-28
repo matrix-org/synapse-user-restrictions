@@ -1,6 +1,7 @@
 # Synapse User Restrictions Module
 
-This module allows restricting users from performing actions such as creating rooms or sending invites.
+This module allows restricting users, that match given regular expressions,
+from performing actions such as creating rooms or sending invites.
 
 
 ## Installation
@@ -15,9 +16,43 @@ Then alter your homeserver configuration, adding to your `modules` configuration
 modules:
   - module: synapse_user_restrictions.UserRestrictionsModule
     config:
-      # Optional: example boolean flag
-      example_option: True
+      # List of rules. Earlier rules have a higher priority than later rules.
+      rules:
+        - match: "@admin.*:example.org"
+          allow: [invite, create_room]
+
+        - match: "@assistant.*:example.org"
+          allow: [invite]
+
+      # If no rules match, then these permissions are denied.
+      # All other permissions are allowed by default.
+      default_deny: [invite, create_room]
 ```
+
+In this example:
+- `@adminalice:example.org` could create rooms and invite users to
+rooms;
+- `@assistantbob:example.org` could invite users to rooms but NOT create rooms;
+and
+- `@plainoldjoe:example.org` could neither create rooms nor invite users.
+
+### Configuration
+
+Rules are applied top-to-bottom, with the first matching rule being used.
+
+A rule matches if the regular expression (written in `match`) fully matches the
+user's Matrix ID, and the permission being sought is either in the `allow` list
+or the `deny` list.
+The regular expression must match the full Matrix ID and not just a portion of it.
+
+Valid permissions (as at the time of writing) are:
+
+- `invite`: the user is trying to invite another user to a room
+- `create_room`: the user is trying to create a room
+
+If no rules match, then `default_deny` is consulted;
+`default_deny` is useful for only allowing a select few listed user patterns to
+be allowed to use certain features.
 
 
 ## Development

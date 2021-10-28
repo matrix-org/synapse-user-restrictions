@@ -38,5 +38,5 @@ jobs:
         with:
           python-version: "3.8"
       - run: python -m pip install tox
-      - run: tox -e tests
+      - run: tox -e py
 
