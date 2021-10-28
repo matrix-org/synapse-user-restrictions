@@ -181,6 +181,7 @@ class UserRestrictionsModuleConfig:
         check_list_elements(
             default_deny, str, "'default_deny' should be a list of strings."
         )
+        check_all_permissions_understood(default_deny)
 
         return UserRestrictionsModuleConfig(
             rules=rules,
