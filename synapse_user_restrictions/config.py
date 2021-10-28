@@ -161,6 +161,9 @@ class UserRestrictionsModuleConfig:
         if "rules" not in config_dict:
             raise ValueError("'rules' list not specified in module configuration.")
 
+        if not isinstance(config_dict["rules"], list):
+            raise ValueError("'rules' should be a list.")
+
         rules = []
         for index, rule in enumerate(config_dict["rules"]):
             if not isinstance(rule, dict):
@@ -171,12 +174,13 @@ class UserRestrictionsModuleConfig:
 
             rules.append(RegexMatchRule.from_config(rule))
 
-        if not isinstance(config_dict["rules"], list):
-            raise ValueError("'rules' should be a list.")
-
         default_deny = config_dict.get("default_deny")
         if default_deny is not None and not isinstance(default_deny, list):
             raise ValueError("'default_deny' should be a list (or unspecified).")
+
+        check_list_elements(
+            default_deny, str, "'default_deny' should be a list of strings."
+        )
 
         return UserRestrictionsModuleConfig(
             rules=rules,
