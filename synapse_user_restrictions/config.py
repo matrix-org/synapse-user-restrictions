@@ -169,9 +169,6 @@ class UserRestrictionsModuleConfig:
                     f"Rule number {index + 1} is not (found: {type(rule).__name__})."
                 )
 
-            # For now, only one kind of rule exists
-            # In the future, we can check which keys exist in the rule to determine
-            # what kind it is (each rule kind should have a unique main key).
             rules.append(RegexMatchRule.from_config(rule))
 
         if not isinstance(config_dict["rules"], list):
