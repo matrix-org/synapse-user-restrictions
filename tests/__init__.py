@@ -15,7 +15,7 @@
 from typing import Any, Dict
 from unittest import mock
 
-from synapse.module_api import ModuleApi, UserID
+from synapse.module_api import ModuleApi
 
 from synapse_user_restrictions.module import UserRestrictionsModule
 
@@ -23,15 +23,8 @@ from synapse_user_restrictions.module import UserRestrictionsModule
 def create_module(
     config_dict: Dict[Any, Any], server_name: str = "example.com"
 ) -> UserRestrictionsModule:
-    # OSTD is this useful to us?
-    def get_qualified_user_id(localpart: str) -> str:
-        return UserID(localpart, server_name).to_string()
-
-    # Create a mock based on the ModuleApi spec, but override some mocked functions
-    # because some capabilities (interacting with the database,
-    # getting the current time, etc.) are needed for running the tests.
+    # Create a mock based on the ModuleApi spec
     module_api = mock.Mock(spec=ModuleApi)
-    module_api.get_qualified_user_id.side_effect = get_qualified_user_id
 
     config = UserRestrictionsModule.parse_config(config_dict)
 
