@@ -14,7 +14,7 @@
 import enum
 import re
 from enum import Enum
-from typing import Any, Dict, Iterable, List, Pattern, Set, Type, TypeVar, cast
+from typing import Any, Dict, Iterable, List, Pattern, Set, TypeVar, cast
 
 import attr
 
@@ -55,18 +55,18 @@ def check_all_permissions_understood(permissions: Iterable[str]) -> None:
 T = TypeVar("T")
 
 
-def check_list_elements(
-    input: List[Any], type_to_check: Type[T], failure_message: str
-) -> List[T]:
+def check_list_elements_are_strings(
+    input: List[Any], failure_message: str
+) -> List[str]:
     """
     Checks that all elements in a list are of the specified type, casting it upon
     success.
     """
     for ele in input:
-        if not isinstance(ele, type_to_check):
+        if not isinstance(ele, str):
             raise ValueError(failure_message)
 
-    return cast(List[T], input)
+    return cast(List[str], input)
 
 
 class RuleResult(Enum):
@@ -120,8 +120,8 @@ class RegexMatchRule:
             if not isinstance(rule["allow"], list):
                 raise ValueError("Rule's 'allow' field must be a list.")
 
-            allow_list = check_list_elements(
-                rule["allow"], str, "Rule's 'allow' field must be a list of strings."
+            allow_list = check_list_elements_are_strings(
+                rule["allow"], "Rule's 'allow' field must be a list of strings."
             )
             check_all_permissions_understood(allow_list)
         else:
@@ -131,8 +131,8 @@ class RegexMatchRule:
             if not isinstance(rule["deny"], list):
                 raise ValueError("Rule's 'deny' field must be a list.")
 
-            deny_list = check_list_elements(
-                rule["deny"], str, "Rule's 'deny' field must be a list of strings."
+            deny_list = check_list_elements_are_strings(
+                rule["deny"], "Rule's 'deny' field must be a list of strings."
             )
             check_all_permissions_understood(deny_list)
         else:
@@ -175,13 +175,13 @@ class UserRestrictionsModuleConfig:
             rules.append(RegexMatchRule.from_config(rule))
 
         default_deny = config_dict.get("default_deny")
-        if default_deny is not None and not isinstance(default_deny, list):
-            raise ValueError("'default_deny' should be a list (or unspecified).")
-
-        check_list_elements(
-            default_deny, str, "'default_deny' should be a list of strings."
-        )
-        check_all_permissions_understood(default_deny)
+        if default_deny is not None:
+            if not isinstance(default_deny, list):
+                raise ValueError("'default_deny' should be a list (or unspecified).")
+            check_list_elements_are_strings(
+                default_deny, "'default_deny' should be a list of strings."
+            )
+            check_all_permissions_understood(default_deny)
 
         return UserRestrictionsModuleConfig(
             rules=rules,
