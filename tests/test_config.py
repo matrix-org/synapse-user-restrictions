@@ -21,7 +21,6 @@ from synapse_user_restrictions.config import (
     RegexMatchRule,
     UserRestrictionsModuleConfig,
 )
-
 from tests import create_module
 
 
