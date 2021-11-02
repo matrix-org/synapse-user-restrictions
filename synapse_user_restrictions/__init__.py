@@ -11,14 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from importlib.metadata import PackageNotFoundError, version
+from typing import Any, Dict
 
 from synapse_user_restrictions.module import UserRestrictionsModule
 
 __all__ = ["UserRestrictionsModule"]
-
-try:
-    __version__ = version(__name__)
-except PackageNotFoundError:
-    # package is not installed
-    pass

@@ -1,35 +1,10 @@
-[tool.towncrier]
-    name = "Synapse User Restrictions Module"
-    filename = "CHANGES.md"
-    directory = "changelog.d"
-    issue_format = "[\\#{issue}](https://github.com/matrix-org/synapse-user-restrictions/issues/{issue})"
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
-    [[tool.towncrier.type]]
-        directory = "feature"
-        name = "Features"
-        showcontent = true
-
-    [[tool.towncrier.type]]
-        directory = "bugfix"
-        name = "Bugfixes"
-        showcontent = true
-
-    [[tool.towncrier.type]]
-        directory = "docker"
-        name = "Updates to the Docker image"
-        showcontent = true
-
-    [[tool.towncrier.type]]
-        directory = "doc"
-        name = "Improved Documentation"
-        showcontent = true
-
-    [[tool.towncrier.type]]
-        directory = "removal"
-        name = "Deprecations and Removals"
-        showcontent = true
-
-    [[tool.towncrier.type]]
-        directory = "misc"
-        name = "Internal Changes"
-        showcontent = true
+[tool.isort]
+profile = "black"
+known_first_party = [
+    "synapse_user_restrictions",
+    "tests"
+]
