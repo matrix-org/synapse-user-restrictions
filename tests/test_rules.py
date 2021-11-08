@@ -11,12 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import unittest
+import aiounittest
 
 from tests import create_module
 
 
-class RuleTest(unittest.IsolatedAsyncioTestCase):
+class RuleTest(aiounittest.AsyncTestCase):
     async def test_rules_allow_with_default_deny(self) -> None:
         """
         Tests allow rules when the defaults are to deny those permissions.

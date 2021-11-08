@@ -21,11 +21,10 @@ from synapse_user_restrictions.config import (
     RegexMatchRule,
     UserRestrictionsModuleConfig,
 )
-
 from tests import create_module
 
 
-class ConfigTest(unittest.IsolatedAsyncioTestCase):
+class ConfigTest(unittest.TestCase):
     def test_config_error_exceptions(self) -> None:
         """
         Check that configuration errors raise exceptions.

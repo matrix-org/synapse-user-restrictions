@@ -1,7 +1,7 @@
 name: Linting and Tests
 on:
   push:
-    branches: ["master", "main", "develop"]
+    branches: ["main"]
   pull_request:
 
 jobs: 
@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: "3.8"
+          python-version: "3.x"
       - run: python -m pip install tox
       - run: tox -e check_codestyle
 
@@ -23,20 +23,23 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: "3.8"
+          python-version: "3.x"
       - run: python -m pip install tox
       - run: tox -e check_types
 
   unit-tests:
     name: Unit tests
-    # If you want to require linting to run first, uncomment this line:
-    #needs: [lint]
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Run the unit tests both against our oldest supported Python version
+        # and the newest stable.
+        python_version: [ "3.7", "3.x" ]
     steps: 
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python_version }}
       - run: python -m pip install tox
       - run: tox -e py
 
