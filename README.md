@@ -3,6 +3,9 @@
 This module allows restricting users, that match given regular expressions,
 from performing actions such as creating rooms or sending invites.
 
+Note that server administrators are not bound by these rules, as the code
+within Synapse exempts server administrators from 'spam checks'.
+
 
 ## Installation
 
